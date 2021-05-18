@@ -26,10 +26,10 @@ Within the GMT script, [GDAL](https://gdal.org/) and [ghostscript](https://ghost
 Post-processing to go from an output PDF to a `.png` image was done with [ImageMagick](https://imagemagick.org/index.php).
 
 ## Workflow
-- [Scrape the Election Results PDF](scrape-the-election-results-pdf)
-- [Associate Scraped Data to Geographical Data](associate-scraped-data-to-geographical-data)
-- [Create the Map with GMT](create-the-map-with-gmt)
-- [Post-Process to an image](post-process-to-an-image)
+- [Scrape the Election Results PDF](#scrape-the-election-results-pdf)
+- [Associate Scraped Data to Geographical Data](#associate-scraped-data-to-geographical-data)
+- [Create the Map with GMT](#create-the-map-with-gmt)
+- [Post-Process to an image](#post-process-to-an-image)
 
 ### Scrape the Election Results PDF 
 Latest vote counts on a precinct-by-precinct basis can be obtained from the [Travis County Clerk](https://countyclerk.traviscountytx.gov/elections/election-results-1/results-for-may-01-2021-local-elections.html).
@@ -57,6 +57,7 @@ The mapmaking script is a bash shell script called `shaded_map_for_vote.sh` whic
 
 This script converts the `PropB_For.shp` into a `PropB_For.gmt` GMT-compatible file using the `ogr2ogr` [GDAL](https://gdal.org/) command.
 Then a bunch of GMT commands are used to create the visual components of the final map. 
+Polygons in the precinct shapefile with no identified Prop. B vote information from the PDF scraping are colored gray in the final map.
 Lastly the GMT script converts the output PostScript file into a PDF file using [ghostscript](https://ghostscript.com/).
 
 `shaded_map_for_vote.sh` contains commented-out lines which can optionally use additional shapefiles available from [City of Austin Open Data Portal](https://data.austintexas.gov/) to display information such as lakes, rivers, roads, and railroads on the map.
