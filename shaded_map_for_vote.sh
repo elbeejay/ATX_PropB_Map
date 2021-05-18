@@ -18,17 +18,17 @@ proj=-JM20
 precincts='PropB_For'
 ogr2ogr -f "GMT" $precincts.gmt $precincts.shp
 
-# water features
-water='misc_gis/LakesandRivers/geo_export_b18f98e7-f1fe-4607-855a-f7e510abebfd'
-ogr2ogr -f "GMT" $water.gmt $water.shp
+# # water features
+# water='misc_gis/LakesandRivers/geo_export_b18f98e7-f1fe-4607-855a-f7e510abebfd'
+# ogr2ogr -f "GMT" $water.gmt $water.shp
 
 # # streets
 # streets='misc_gis/StreetCenterline/geo_export_376da4cd-f1a1-4892-bc63-3ee36ca2ffab'
 # ogr2ogr -f "GMT" $streets.gmt $streets.shp
 
-# railroads
-railroads='misc_gis/Railroads/geo_export_5f3dc6ae-dfc3-4023-8340-3437d821e560'
-ogr2ogr -f "GMT" $railroads.gmt $railroads.shp
+# # railroads
+# railroads='misc_gis/Railroads/geo_export_5f3dc6ae-dfc3-4023-8340-3437d821e560'
+# ogr2ogr -f "GMT" $railroads.gmt $railroads.shp
 
 # identify attribute to plot
 attr=For
@@ -38,11 +38,14 @@ gmt makecpt -C220,150/50/50,white,50/50/150 -Z -T0,1,50,100 -Do > c.cpt
 
 gmt psxy $precincts.gmt $reg $proj -L -Wgray -aZ=$attr -Cc.cpt -K > $ofile.ps
 
-gmt psxy $water.gmt $reg $proj -L -Wblack -t50 -O -K >> $ofile.ps
+# # plot water features
+# gmt psxy $water.gmt $reg $proj -L -Wblack -t50 -O -K >> $ofile.ps
 
+# # plot streets
 # gmt psxy $streets.gmt $reg $proj -Wblack -t75 -O -K >> $ofile.ps
 
-gmt psxy $railroads.gmt $reg $proj -Wthin,.- -t75 -O -K >> $ofile.ps
+# # plot railroads
+# gmt psxy $railroads.gmt $reg $proj -Wthin,.- -t75 -O -K >> $ofile.ps
 
 # add colorscale
 gmt psscale -Cc.cpt -Ba25 -B+l'Prop. B "For" Vote %' -DJBC+w10c/0.5c+jTC+h+e+o0/0.75 $reg $proj -O -K >> $ofile.ps
