@@ -43,7 +43,7 @@ The Python scraping script uses the `tabula` package to coerce information from 
 From this DataFrame, we can identify the precinct ID associated with each PDF page, and we can search for and identify Prop. B results on each page.
 By linking precinct IDs to corresponding Prop. B voting results, a new DataFrame is created, and this is exported as a new CSV file called `ScrapedResults_PropB_prePrecinct.csv.`.
 
-**IMPORTANT:** The PDF document is 700+ pages in length making automated data scraping attracting. However while this method is expedient it is not guaranteed to be accurate or work perfectly. We assume that the format of the pages remains consistent throughout the document and hope the method works. 
+**IMPORTANT:** The PDF document is 700+ pages in length making automated data scraping attractive. However while this method is expedient it is not guaranteed to be accurate or work perfectly. We assume that the format of the pages remains consistent throughout the document and hope the method works. 
 
 ### Associate Scraped Data to Geographical Data
 To associate the scraped data to geographical information that is ultimately plotted on the map, there is a single Python script that can be called after scraping the data: `python manipulate_shapefile.py`. 
