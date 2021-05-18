@@ -26,21 +26,47 @@ Within the GMT script, [GDAL](https://gdal.org/) and [ghostscript](https://ghost
 Post-processing to go from an output PDF to a `.png` image was done with [ImageMagick](https://imagemagick.org/index.php).
 
 ## Workflow
-- [Scrape the Election Results PDF](Scrape-the-Election-Results-PDF)
-- [Associate Scraped Data to Geographical Data](Associate-Scraped-Data-to-Geographical-Data)
-- [Create the Map with GMT](Create-the-Map-with-GMT)
-- [Post-Process to an image](Post-Process-to-an-image)
+- [Scrape the Election Results PDF](scrape-the-election-results-pdf)
+- [Associate Scraped Data to Geographical Data](associate-scraped-data-to-geographical-data)
+- [Create the Map with GMT](create-the-map-with-gmt)
+- [Post-Process to an image](post-process-to-an-image)
 
 ### Scrape the Election Results PDF 
+Latest vote counts on a precinct-by-precinct basis can be obtained from the [Travis County Clerk](https://countyclerk.traviscountytx.gov/elections/election-results-1/results-for-may-01-2021-local-elections.html).
+The scraping procedure is in a single Python script that can be run with the command `python scrape_script.py`. 
+
+In addition to extracting the Prop. B "For" vote percentages and placing them in a CSV file, `ScrapedResults_PropB_prePrecinct.csv`, the below plot is also generated showing the vote split for each precinct as a series of stacked bars.
+![Precinct Stacked Bars](BarChartResults.png)
+
+Not terribly legible due to the sheer number of precincts, but if viewed separately you can zoom in and read individual labels if you so choose.
+The Python scraping script uses the `tabula` package to coerce information from the election information PDF into a messy `pandas` DataFrame.
+From this DataFrame, we can identify the precinct ID associated with each PDF page, and we can search for and identify Prop. B results on each page.
+By linking precinct IDs to corresponding Prop. B voting results, a new DataFrame is created, and this is exported as a new CSV file called `ScrapedResults_PropB_prePrecinct.csv.`.
+
+**IMPORTANT:** The PDF document is 700+ pages in length making automated data scraping attracting. However while this method is expedient it is not guaranteed to be accurate or work perfectly. We assume that the format of the pages remains consistent throughout the document and hope the method works. 
 
 ### Associate Scraped Data to Geographical Data
+To associate the scraped data to geographical information that is ultimately plotted on the map, there is a single Python script that can be called after scraping the data: `python manipulate_shapefile.py`. 
+
+This script uses `geopandas` to associate the scraped data about Prop. B vote results per-precinct to the precincts shapefile.
+Effectively we check each precinct ID in the original precincts shapefile, and if we have an associated entry in the scraped data for that precinct, we "link" it to the precinct shapefile as an *attribute*. 
+The output of the `manipulate_shapefile.py` script is a new shapefile called `PropB_For.shp` which contains the same precinct geographical information with a new attribute "For" that contains the % of the vote that was in favor of Prop. B for that precinct. 
 
 ### Create the Map with GMT
+The mapmaking script is a bash shell script called `shaded_map_for_vote.sh` which uses GMT to make a PDF map.
 
-Within the GMT script, [GDAL](https://gdal.org/) is required to convert shapefiles to GMT-compatible files, and [ghostscript](https://ghostscript.com/) is necessary to convert the PostScript output file into a PDF. 
+This script converts the `PropB_For.shp` into a `PropB_For.gmt` GMT-compatible file using the `ogr2ogr` [GDAL](https://gdal.org/) command.
+Then a bunch of GMT commands are used to create the visual components of the final map. 
+Lastly the GMT script converts the output PostScript file into a PDF file using [ghostscript](https://ghostscript.com/).
+
+`shaded_map_for_vote.sh` contains commented-out lines which can optionally use additional shapefiles available from [City of Austin Open Data Portal](https://data.austintexas.gov/) to display information such as lakes, rivers, roads, and railroads on the map.
+To incorporate that additional data, add them to the [misc_gis](misc_gis/README.md) subdirectory.
+The example map displayed at the top shows both water features and railroads lines.
+
+**NOTE:** I use a Unix-based OS, running this script on another operating system may require modifying the line-endings ([Newline Wikipedia Page](https://en.wikipedia.org/wiki/Newline)).
+
 
 ### Post-Process to an image
-
 To post-process the output PDF into a `.png` image file, I used the following [ImageMagick](https://imagemagick.org/index.php) CLI command:
 ```
 convert -density 300 plot_shaded.pdf -flatten plot_shaded.png
