@@ -1,0 +1,19 @@
+Data sources
+
+Travis County Election Precint Shapefile
+Obtained from the Travis County Tax Office
+https://tax-office.traviscountytx.gov/about-us/reports-data/voters
+
+May 1, 2021 Travis County Unofficial Local Election Results
+Obtained from the Travis County Clerk
+https://countyclerk.traviscountytx.gov/elections/election-results-1/results-for-may-01-2021-local-elections.html
+Picked PDF of Precinct by Precinct results.
+- Will have to scrape PDF to get the results for Prop B per Precinct
+
+Voter Turnout by Precinct
+Available in HTML tables from the Travis County Clerk
+https://traviscounty.totalvote.com/turnout
+- Will have to scrape the HTML website to get the voter turnout per Precinct
+
+GIS Data from Austin
+https://data.austintexas.gov/browse

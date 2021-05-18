@@ -127,3 +127,14 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# GMT stuff
+*.history
+*.cpt
+
+# GIS files to ignore
+misc_gis/
+PropB_For*
+
+# Output to ignore
+ScrapedResults*
