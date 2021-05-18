@@ -3,7 +3,7 @@ Semi-automated workflow to create a map of precinct-by-precinct election results
 
 ![Final Map](plot_shaded.png)
 
-This repository provides the source code necessary to reproduce the map shown above. Technical step-by-step instructions required to reproduce this map are provided below, for a more qualitative explanation of the map and project see [this page](https://jayaramhariharan.com/).
+This repository provides the source code necessary to reproduce the map shown above. Technical step-by-step instructions required to reproduce this map are provided below, for a more qualitative explanation of the map and project see [this page](https://jayaramhariharan.com/tidbits/atx-map/).
 
 ## Data Sources
 Data for this project comes from a variety of Travis County and City of Austin resources.
